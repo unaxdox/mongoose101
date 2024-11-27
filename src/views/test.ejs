@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,9 +12,9 @@
         }
 
         async function createIkasle() {
-            const izena = document.getElementById('izena').value;
-            const adina = document.getElementById('adina').value;
-            const email = document.getElementById('email').value;
+            const izena = document.getElementById('create-izena').value;
+            const adina = document.getElementById('create-adina').value;
+            const email = document.getElementById('create-email').value;
 
             const response = await fetch('/api/ikasleak', {
                 method: 'POST',
@@ -27,6 +26,38 @@
 
             const data = await response.json();
             document.getElementById('newIkasle').innerText = JSON.stringify(data, null, 2);
+            fetchIkasleak(); // Actualiza la lista
+        }
+
+        async function deleteIkasle() {
+            const id = document.getElementById('delete-id').value;
+
+            const response = await fetch(`/api/ikasleak/${id}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+            document.getElementById('newIkasle').innerText = JSON.stringify(data, null, 2);
+            fetchIkasleak(); // Actualiza la lista
+        }
+
+        async function editIkasle() {
+            const id = document.getElementById('edit-id').value;
+            const izena = document.getElementById('edit-izena').value;
+            const adina = document.getElementById('edit-adina').value;
+            const email = document.getElementById('edit-email').value;
+
+            const response = await fetch(`/api/ikasleak/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ izena, adina, email })
+            });
+
+            const data = await response.json();
+            document.getElementById('newIkasle').innerText = JSON.stringify(data, null, 2);
+            fetchIkasleak(); // Actualiza la lista
         }
     </script>
 </head>
@@ -37,42 +68,43 @@
 
     <h2>Create Ikasle</h2>
     <form onsubmit="event.preventDefault(); createIkasle();">
-        <label for="izena">Izena:</label>
-        <input type="text" id="izena" name="izena" required>
+        <label for="create-izena">Izena:</label>
+        <input type="text" id="create-izena" required>
         <br>
-        <label for="adina">Adina:</label>
-        <input type="number" id="adina" name="adina" required>
+        <label for="create-adina">Adina:</label>
+        <input type="number" id="create-adina" required>
         <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="create-email">Email:</label>
+        <input type="email" id="create-email" required>
         <br>
         <button type="submit">Create</button>
     </form>
 
-    <h2>Delete ikasle</h2>
-    <form onsubmit="event.preventDefault(); createIkasle();">
-        <label for="IkasleID">Ikasle ID:</label>
-        <input type="text" id="ID" name="izenaid" required>
+    <h2>Delete Ikasle</h2>
+    <form onsubmit="event.preventDefault(); deleteIkasle();">
+        <label for="delete-id">Ikasle ID:</label>
+        <input type="text" id="delete-id" required>
         <br>
         <button type="submit">Delete</button>
     </form>
 
     <h2>Edit Ikasle</h2>
-    <form onsubmit="event.preventDefault(); createIkasle();">
-        <label for="izena">Ikasle Email:</label>
-        <input type="text" id="izena" name="izena" required>
+    <form onsubmit="event.preventDefault(); editIkasle();">
+        <label for="edit-id">Ikasle ID:</label>
+        <input type="text" id="edit-id" required>
         <br>
-        <label for="izena">Izena:</label>
-        <input type="text" id="izena" name="izena" required>
+        <label for="edit-izena">Izena:</label>
+        <input type="text" id="edit-izena" required>
         <br>
-        <label for="adina">Adina:</label>
-        <input type="number" id="adina" name="adina" required>
+        <label for="edit-adina">Adina:</label>
+        <input type="number" id="edit-adina" required>
         <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <label for="edit-email">Email:</label>
+        <input type="email" id="edit-email" required>
         <br>
         <button type="submit">Edit</button>
     </form>
+
     <pre id="newIkasle"></pre>
 </body>
 </html>
