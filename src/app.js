@@ -26,7 +26,7 @@ app.use(express.static('public'));
 app.use('/api/ikasleak', ikasleRoutes);
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('test');
 });
 
 app.get('/test', (req, res) => {

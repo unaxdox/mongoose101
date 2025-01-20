@@ -20,6 +20,10 @@ const ikasleSchema = new mongoose.Schema({
     }
 });
 
+ikasleSchema.path('email').validate(function(email) {
+    return email.includes('@');
+}, 'Email-ak @ izan behar du');
+
 // Middleware-ak
 ikasleSchema.pre('save', function(next) {
     this.izena = this.izena.charAt(0).toUpperCase() + this.izena.slice(1);
